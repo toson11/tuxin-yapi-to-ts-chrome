@@ -46,14 +46,14 @@ class BaseCodeGenerater {
       // 请求体数据类型
       const reqType = this.bodyJsonToTsCode(req_body_other);
       if (reqType) {
-        reqTypeCode = `type ${this.generateTypeName(path, TypeType.req)} = ${reqType}`;
+        reqTypeCode = `export type ${this.generateTypeName(path, TypeType.req)} = ${reqType}`;
       }
     }
     if (res_body_is_json_schema && res_body) {
       // 响应体数据类型
       const resType = this.bodyJsonToTsCode(res_body, "data");
       if (resType) {
-        resTypeCode = `type ${this.generateTypeName(path, TypeType.res)} = ${resType}`;
+        resTypeCode = `export type ${this.generateTypeName(path, TypeType.res)} = ${resType}`;
       }
     }
     // 接口代码
@@ -176,7 +176,7 @@ class BaseCodeGenerater {
     let dataKey = "";
     if (hasReqParams) {
       paramsType = this.generateTypeName(path, TypeType.req);
-      dataKey = method === "GET" ? "params" : "body";
+      dataKey = method === "GET" ? "params" : "data";
     }
 
     // 接口参数
