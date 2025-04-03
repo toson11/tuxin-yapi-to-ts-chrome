@@ -212,7 +212,7 @@ class BaseCodeGenerater {
     return `${importCode}\n\n${typeDesc}
     export const ${apiTypeName} = (${paramsStr}) => {
     return http.${method.toLowerCase()}<${resTypeName}>({
-      url: "${url}"${dataKey ? `,\n${dataKey}: params,` : ""}
+      url: \`"${url}"${dataKey ? `,\n${dataKey}: params,` : ""}\`
     });
   };`;
   }
