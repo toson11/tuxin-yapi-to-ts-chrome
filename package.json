@@ -1,11 +1,33 @@
 {
   "name": "tuxin-yapi-to-ts-chrome",
   "version": "1.0.0",
+  "description": "Chrome extension for converting YAPI interface documentation to TypeScript interfaces",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "yapi",
+    "typescript",
+    "chrome-extension",
+    "api",
+    "interface"
+  ],
+  "author": "Tuxin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toson11/tuxin-yapi-to-ts-chrome.git"
+  },
+  "bugs": {
+    "url": "https://github.com/toson11/tuxin-yapi-to-ts-chrome/issues"
+  },
+  "homepage": "https://github.com/toson11/tuxin-yapi-to-ts-chrome#readme",
+  "engines": {
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "prettier": "^3.5.3"
