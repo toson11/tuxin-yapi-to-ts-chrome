@@ -1,6 +1,7 @@
 import prettier from "prettier/standalone";
 import typescriptPlugin from "prettier/plugins/typescript.js";
 import estreePlugin from "prettier/plugins/estree.js";
+import { config } from "../config";
 
 /**
  * 格式化代码
@@ -12,9 +13,7 @@ export async function formatCode(code: string): Promise<string> {
     return prettier.format(code, {
       parser: "typescript",
       plugins: [typescriptPlugin, estreePlugin],
-      singleQuote: true,
-      semi: true,
-      tabWidth: 2,
+      ...(config.prettierConfig || {}),
     });
   } catch (error: any) {
     throw new Error("格式化代码失败:" + error.message);

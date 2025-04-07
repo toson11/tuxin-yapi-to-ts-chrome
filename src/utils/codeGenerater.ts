@@ -2,7 +2,9 @@ import { config } from "../config";
 import BaseCodeGenerater, { TypeType } from "./codeBaseGenerater";
 class CodeGenerater extends BaseCodeGenerater {
   constructor(data: YApiResData, url: string) {
-    super(data, url, { httpImportPath: config.httpImportPath });
+    super(data, url, {
+      customApiConfig: config.customApiConfig,
+    });
   }
 
   generateTypeName(path: string, type: TypeType) {

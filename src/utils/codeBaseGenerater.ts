@@ -11,8 +11,10 @@ export enum TypeType {
   api = "api",
 }
 export type CodeGeneraterOptions = {
-  /** 自定义http导入路径 */
+  /** 自定义http实例的导入路径，没有则不导入 */
   httpImportPath?: string;
+  /** 自定义请求配置，如 loading: true 等 */
+  customApiConfig?: Record<string, string>;
 };
 
 class BaseCodeGenerater {
@@ -21,11 +23,11 @@ class BaseCodeGenerater {
   /** 网页地址 */
   private url: string;
   /** 选项 */
-  private options?: CodeGeneraterOptions;
+  private options: CodeGeneraterOptions = {};
   constructor(data: YApiResData, url: string, options?: CodeGeneraterOptions) {
     this.yapiResData = data;
     this.url = url;
-    this.options = options;
+    this.options = options || {};
   }
 
   /**
@@ -205,14 +207,26 @@ class BaseCodeGenerater {
     const apiTypeName = this.generateTypeName(path, TypeType.api);
     const resTypeName = this.generateTypeName(path, TypeType.res);
     const url = this.handlePath(path, req_params, req_query);
-    const importCode = this.options?.httpImportPath
-      ? `import http from "${this.options.httpImportPath}";`
+    const { customApiConfig, httpImportPath } = this.options;
+    const importCode = httpImportPath
+      ? `import http from "${httpImportPath}";`
       : "";
 
+    let apiConfigKeyValues = `url: \`${url}\``;
+    if (dataKey) {
+      // 处理请求体参数
+      apiConfigKeyValues += `,\n${dataKey}: params`;
+    }
+    if (customApiConfig && Object.keys(customApiConfig).length) {
+      // 处理自定义请求配置，如 loading: true 等
+      Object.entries(customApiConfig).forEach(([key, value]) => {
+        apiConfigKeyValues += `,\n${key}: ${value}`;
+      });
+    }
     return `${importCode}\n\n${typeDesc}
     export const ${apiTypeName} = (${paramsStr}) => {
     return http.${method.toLowerCase()}<${resTypeName}>({
-      url: \`"${url}"${dataKey ? `,\n${dataKey}: params,` : ""}\`
+      ${apiConfigKeyValues}
     });
   };`;
   }
